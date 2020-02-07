@@ -1,11 +1,29 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Join from "./components/Join/Join";
+import React, { useState } from "react";
+import io from "socket.io-client";
+import PanelRegistro from "./components/Join/PanelRegistro";
 
-const App = () => (
-  <Router>
-    <Route path="/" exact component={Join} />
-  </Router>
-);
+// import default styles
+import "./styles.css";
+
+// bootrap imports
+import "bootstrap/dist/css/bootstrap.css";
+
+const App = () => {
+  // socket io
+  const ENDPOINT = "localhost:5000";
+  let socket = io(ENDPOINT);
+
+  const [usuario, setUsuario] = useState("");
+  const [room, setRoom] = useState({});
+
+  const [logeado, guardarLogeado] = useState(false);
+
+  const actualizarUser = usuario => {
+    console.log("usuairo q viene", usuario);
+    setUsuario(usuario);
+    console.log("usuario", usuario);
+  };
+  return logeado ? null : <PanelRegistro actualizarUser={actualizarUser} />;
+};
 
 export default App;
